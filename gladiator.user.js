@@ -13,14 +13,22 @@
 
 // @run-at       document-end
 // @include      /^https?:\/\/(.*\.)?backpack\.tf(:\d+)?\//
+// @require https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js 
 // ==/UserScript==
+
 
 (function() {
     'use strict';
+  
+    for (let i of document.getElementsByClassName('price-box')) {
+      if (i.origin === 'https://gladiator.tf') { 
+        return;
+      }
+    }
 
     if (window.location.href.includes('/stats')) {
         $('.price-boxes').append(
-            `<a class="price-box" href="https://gladiator.tf/manage/my/item/${encodeURIComponent($('.stats-header-title').text().trim())}/add" target="_blank" data-tip="top" data-original-title="Gladiator.tf">
+            `<a class="price-box" href="https://gladiator.tf/manage/my/item/${encodeURIComponent($('.stats-header-title').text().trim())}/add" target="_blank" data-tip="top" data-original-title="Gladiator.tf" title="Gladiator.tf">
                 <img src="https://gladiator.tf/favicon-96x96.png" alt="gladiator">
                 <div class="text" style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 0;">
                     <div class="value" style="font-size: 14px;">Add on Gladiator.tf</div>
@@ -35,7 +43,7 @@
                 let popover = $(self).next().find("#popover-price-links");
 
                 if (popover.find("a[href^='https://gladiator.tf']").length == 0) {
-                    popover.append("<a class=\"btn btn-default btn-xs\" href=\"" + `https://gladiator.tf/manage/my/item/${encodeURIComponent($($(self)[0]).data('original-title'))}/add` + "\" target=\"_blank\"><img src=\"https://gladiator.tf/favicon-96x96.png\" style='width: 16px;height: 16px;margin-top: -2px;'> Add on Gladiator.tf</a>");
+                    popover.append("<a class=\"btn btn-default btn-xs\" href=\"" + `https://gladiator.tf/manage/my/item/${encodeURIComponent($($(self)[0]).data('original-title'))}/add` + "\" target=\"_blank\"><img src=\"https://gladiator.tf/favicon-96x96.png\" title=\"Gladiator.tf\" style='width: 16px;height: 16px;margin-top: -2px;'> Add on Gladiator.tf</a>");
                 }
 
                 clearInterval(id);
